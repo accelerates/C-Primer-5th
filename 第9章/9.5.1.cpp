@@ -9,7 +9,7 @@
 #include <vector>
 #include <string>
 using namespace std;
-int getMonth(const string v)
+int getMonth(const string& v)
 {
     int month(0);
     if (v.find("Jan") < v.size()) month = 1;
