@@ -13,22 +13,28 @@ using namespace std;
 class replaceStr
 {
 public:
-    replaceStr(string &str,const string &odVlaue,const string &nwVlaue):s(str),oldValue(odVlaue),newValue(nwVlaue){};
+    replaceStr(string &str,const string &odVlaue,const string &nwVlaue);
     void replacePos();
     void replaceIt();
     void replaceItCp();
+    void replace();
     void output();
 private:
     string s;
     string oldValue;
     string newValue;
+    unsigned long oldlen,newlen;
 };
+replaceStr::replaceStr(string &str,const string &odVlaue,const string &nwVlaue)
+:s(str),oldValue(odVlaue),newValue(nwVlaue)
+{
+    oldlen = oldValue.size();
+    newlen = newValue.size();
+}
 void replaceStr::replacePos()
 {
     unsigned long pos = 0;
     while ((pos = s.find(oldValue,pos)) != string::npos) {
-        unsigned long oldlen =oldValue.size();
-        unsigned long newlen =newValue.size();
         s.erase(pos,oldlen);
         s.insert(pos,newValue);
         pos = pos+newlen;
@@ -39,8 +45,6 @@ void replaceStr::replaceIt()
 {
     unsigned long pos = 0;
     while ((pos = s.find(oldValue,pos)) != string::npos) {
-        unsigned long oldlen =oldValue.size();
-        unsigned long newlen =newValue.size();
         s.erase(pos,oldlen);
         s.insert(pos,newValue);
         pos = pos+newlen;
@@ -50,10 +54,16 @@ void replaceStr::replaceItCp()
 {
     unsigned long pos = 0;
     while ((pos = s.find(oldValue,pos)) != string::npos) {
-        unsigned long oldlen =oldValue.size();
-        unsigned long newlen =newValue.size();
         s.erase(pos,oldlen);
         s.insert(s.cbegin()+pos,newValue.cbegin(),newValue.cend());
+        pos = pos+newlen;
+    }
+}
+void replaceStr::replace()
+{
+    unsigned long pos = 0;
+    while ((pos = s.find(oldValue,pos)) != string::npos) {
+        s.replace(pos, pos+oldlen, newValue);
         pos = pos+newlen;
     }
 }
@@ -65,7 +75,7 @@ int main()
 {
     string str("tho2tho");
     replaceStr r(str,"tho","tthough");
-    r.replaceItCp();
+    r.replace();
     r.output();
     
     return 0;
